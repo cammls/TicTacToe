@@ -9,7 +9,7 @@ class App extends Component {
           <h2>TIC TAC TOE GAME</h2>
         </div>
         <p className="App-intro">
-          blablabla
+          In this Tic Tac Toe game, you will play against an AI. Choose the level of the AI and then press "Start game" 
         </p>
       </div>
     );
