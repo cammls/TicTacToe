@@ -27,7 +27,7 @@ class Board extends React.Component {
   this.setState({AILevel: event.target.value});
  }
   handleSubmit(event) {
-    console.log("staart submit")
+    console.log("Game started")
     event.preventDefault();
     this.setState({
       squares: Array(9).fill(null),
@@ -44,24 +44,70 @@ class Board extends React.Component {
   squares[i] ='X';
   this.setState({
     squares: squares,
-  xIsNext: !this.state.xIsNext,},this.DumbAI(squares));
+  xIsNext: !this.state.xIsNext,},this.AI(squares));
 
 }
+AI(squares)
+{
+  switch(this.state.AILevel) {
+    case "dumb":
+    this.DumbAI(squares)
+    break;
+    case "smart":
+    this.SmartAI(squares)
+    break;
+  }
+}
 DumbAI(squares) {
-  console.log("AI is playing!")
-  let i=Math.floor(Math.random() * 8)
+  console.log("DumbAI is playing!")
+  let o=Math.floor(Math.random() * 8)
   if (calculateWinner(squares)) {
     return
   }
-  else if (squares[i]){
+  else if (squares[o]){
     this.DumbAI(squares)
   }
   else {
-  squares[i] ='O';
+  squares[o] ='O';
   this.setState({
     squares: squares,
   xIsNext: !this.state.xIsNext});
 }
+}
+SmartAI(squares){
+  if (calculateWinner(squares)) {
+    return
+  }
+  console.log("SmartAI is playing!")
+  let o;
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if ((squares[a]== 'X' && squares[b]=='X') || (squares[a]=='X' && squares[c]=='X')|| (squares[a]=='X' && squares[c]=='X')) {
+      console.log("il a 2 X sur la meme ligne")
+      console.log(a+" "+b+" "+c)
+      if (squares[a]== null){ o = a;}
+      if (squares[b]==null){ o = b;}
+      if (squares[c]==null){ o=c;}
+      squares[o] ='O';
+      this.setState({
+        squares: squares,
+      xIsNext: !this.state.xIsNext});
+    }
+  }
+  if (o== undefined)
+  {
+    this.DumbAI(squares)
+  }
 }
 renderSquare(i) {
 return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>;
@@ -78,14 +124,15 @@ return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}
     return (
       <div>
       <form onSubmit={this.handleSubmit}>
-       <label>
          Choose the AI level:
+         <div className="select">
          <select value={this.state.AILevel} onChange={this.handleChange}>
            <option value="dumb">Dumb</option>
-           <option value="average">Average</option>
            <option value="smart">Smart</option>
+           <option value="unbeatable">Unbeatable</option>
          </select>
-       </label>
+         <div className="select__arrow"></div>
+         </div><br />
        <input className="start" type="submit" value="Start Game" />
      </form>
      <div>Level chosen: {this.state.AILevel}</div>
@@ -128,9 +175,8 @@ class Game extends React.Component {
 
 // ========================================
 
-
 function calculateWinner(squares) {
-  console.log(squares)
+  // console.log(squares)
   const lines = [
     [0, 1, 2],
     [3, 4, 5],

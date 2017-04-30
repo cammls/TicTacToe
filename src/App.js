@@ -9,7 +9,8 @@ class App extends Component {
           <h2>TIC TAC TOE GAME</h2>
         </div>
         <p className="App-intro">
-          In this Tic Tac Toe game, you will play against an AI. Choose the level of the AI and then press "Start game" 
+          In this Tic Tac Toe game, you will play against an AI.<br />
+          You play with 'X' and the AI plays with 'O'. Choose the level of the AI and then press "Start game"
         </p>
       </div>
     );
