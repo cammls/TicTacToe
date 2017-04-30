@@ -93,8 +93,7 @@ SmartAI(squares){
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if ((squares[a]== 'X' && squares[b]=='X') || (squares[a]=='X' && squares[c]=='X')|| (squares[a]=='X' && squares[c]=='X')) {
-      console.log("il a 2 X sur la meme ligne")
-      console.log(a+" "+b+" "+c)
+    //if there are two 'X's on the same line, we play on the empty square of the same line to prevent player from winning
       if (squares[a]== null){ o = a;}
       if (squares[b]==null){ o = b;}
       if (squares[c]==null){ o=c;}
@@ -104,7 +103,7 @@ SmartAI(squares){
       xIsNext: !this.state.xIsNext});
     }
   }
-  if (o== undefined)
+  if (o== undefined)  // if there are no two 'X's on the same line, AI plays randomly
   {
     this.DumbAI(squares)
   }
